@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -28,7 +27,7 @@ class FirestoreController extends GetxController {
           title: "Berhasil",
           middleText: "Berhasil menambahkan user",
           onConfirm: () {
-            Get.offAllNamed(Routes.HOME);
+            Get.offAllNamed(Routes.DASHBOARD);
           },
           textConfirm: "OKAY");
     } else {
@@ -38,7 +37,7 @@ class FirestoreController extends GetxController {
           title: "Gagal",
           middleText: "Gagal menambahkan user",
           onConfirm: () {
-            Get.offAllNamed(Routes.HOME);
+            Get.offAllNamed(Routes.DASHBOARD);
           },
           textConfirm: "OKAY");
     }
@@ -98,7 +97,7 @@ class FirestoreController extends GetxController {
         final Map<String, dynamic> data =
             docSnapshot.data() as Map<String, dynamic>;
         if (data.containsKey('wallates')) {
-          docSnapshot.docs
+          // docSnapshot.docs;
         } else {
           print('The "wallates" field does not exist in the document.');
         }
@@ -110,7 +109,7 @@ class FirestoreController extends GetxController {
       title: "Berhasil",
       middleText: "Berhasil menambahkan wallate",
       onConfirm: () {
-        Get.offAllNamed(Routes.HOME);
+        Get.offAllNamed(Routes.DASHBOARD);
       },
       textConfirm: "OKAY",
     );

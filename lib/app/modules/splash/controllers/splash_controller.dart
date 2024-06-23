@@ -23,7 +23,7 @@ class SplashController extends GetxController {
         Get.offAllNamed(Routes.LOGIN);
       });
     } else {
-      Get.offAllNamed(Routes.HOME);
+      Get.offAllNamed(Routes.ADD_WALLATE);
     }
   }
 

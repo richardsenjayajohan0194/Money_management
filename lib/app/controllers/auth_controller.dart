@@ -42,7 +42,7 @@ class AuthController extends GetxController {
         saveDataToSF(userMap);
         firestoreController.addUser(userMap);
       }
-      Get.offAllNamed(Routes.HOME);
+      Get.offAllNamed(Routes.DASHBOARD);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -109,7 +109,7 @@ class AuthController extends GetxController {
         saveDataToSF(userMap);
       }
 
-      Get.offAllNamed(Routes.HOME);
+      Get.offAllNamed(Routes.DASHBOARD);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

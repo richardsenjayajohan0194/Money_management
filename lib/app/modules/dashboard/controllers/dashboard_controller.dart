@@ -1,7 +1,13 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  final String title = 'Home Title';
+class DashboardController extends GetxController {
+  var currentIndexPage = 0;
+
+  void changeCurrentIndexPage(int index) {
+    currentIndexPage = index;
+
+    update();
+  }
 
   final count = 0.obs;
   @override
