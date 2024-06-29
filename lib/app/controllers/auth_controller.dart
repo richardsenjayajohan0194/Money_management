@@ -31,7 +31,6 @@ class AuthController extends GetxController {
         await user.reload();
         String uid = user.uid;
         print('User UID: $uid');
-
         userModel.uid = uid;
         userModel.email = user.email;
         userModel.username = username;
@@ -67,14 +66,13 @@ class AuthController extends GetxController {
     SF.setString('currUserIn', currUserIn);
   }
 
-  Future<Map<String, dynamic>?> getUserData() async {
+  Future<UserModel?> getUserData() async {
     final SharedPreferences SF = await SharedPreferences.getInstance();
 
     if (SF.containsKey("currUserIn")) {
       final currUserIn =
           json.decode(SF.getString('currUserIn')!) as Map<String, dynamic>;
-
-      return currUserIn;
+      return UserModel.fromMap(currUserIn['user']);
     } else {
       return null;
     }

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:money_management/app/controllers/auth_controller.dart';
@@ -46,26 +45,26 @@ class FirestoreController extends GetxController {
   void addWallate(String wallates, String name, String desc, String ballance,
       String image) async {
     // Mengambil data uid dari fungsi getUserData()
-    Map<String, dynamic>? userData =
-        await Get.find<AuthController>().getUserData();
-    String uid = userData!['user']['uid'];
+    // Map<String, dynamic>? userData =
+    //     await Get.find<AuthController>().getUserData();
+    // String uid = userData!['user']['uid'];
 
-    print("uidnya adalah $uid");
+    // print("uidnya adalah $uid");
 
-    // Menggunakan objek dari kedua class object
-    TransactionModel transactionModel = TransactionModel(
-      desc: desc,
-      ballance: int.parse(ballance),
-      min: 0,
-      plus: 0,
-      image: image,
-    );
+    // // Menggunakan objek dari kedua class object
+    // TransactionModel transactionModel = TransactionModel(
+    //   desc: desc,
+    //   ballance: int.parse(ballance),
+    //   min: 0,
+    //   plus: 0,
+    //   image: image,
+    // );
 
-    WallateModel wallateModel = WallateModel(
-      transaction: {
-        wallates: [transactionModel],
-      },
-    );
+    // WallateModel wallateModel = WallateModel(
+    //   transaction: {
+    //     wallates: [transactionModel],
+    //   },
+    // );
 
 //     DocumentReference datas = await firestore.collection('users').doc(uid);
 
@@ -89,29 +88,29 @@ class FirestoreController extends GetxController {
 //       }, SetOptions(merge: true));
 //     }
 
-    final DocumentReference docRef =
-        FirebaseFirestore.instance.collection('users').doc(uid);
+    // final DocumentReference docRef =
+    //     FirebaseFirestore.instance.collection('users').doc(uid);
 
-    docRef.get().then((DocumentSnapshot docSnapshot) {
-      if (docSnapshot.exists) {
-        final Map<String, dynamic> data =
-            docSnapshot.data() as Map<String, dynamic>;
-        if (data.containsKey('wallates')) {
-          // docSnapshot.docs;
-        } else {
-          print('The "wallates" field does not exist in the document.');
-        }
-      } else {
-        print('The document does not exist.');
-      }
-    });
-    Get.defaultDialog(
-      title: "Berhasil",
-      middleText: "Berhasil menambahkan wallate",
-      onConfirm: () {
-        Get.offAllNamed(Routes.DASHBOARD);
-      },
-      textConfirm: "OKAY",
-    );
+    // docRef.get().then((DocumentSnapshot docSnapshot) {
+    //   if (docSnapshot.exists) {
+    //     final Map<String, dynamic> data =
+    //         docSnapshot.data() as Map<String, dynamic>;
+    //     if (data.containsKey('wallates')) {
+    //       // docSnapshot.docs;
+    //     } else {
+    //       print('The "wallates" field does not exist in the document.');
+    //     }
+    //   } else {
+    //     print('The document does not exist.');
+    //   }
+    // });
+    // Get.defaultDialog(
+    //   title: "Berhasil",
+    //   middleText: "Berhasil menambahkan wallate",
+    //   onConfirm: () {
+    //     Get.offAllNamed(Routes.DASHBOARD);
+    //   },
+    //   textConfirm: "OKAY",
+    // );
   }
 }

@@ -16,16 +16,6 @@ class DashboardView extends StatelessWidget {
     return GetBuilder<DashboardController>(
       builder: (controller) {
         return Scaffold(
-          // appBar: AppBar(
-          //   title: Text('Dashboard New'),
-          //   centerTitle: true,
-          //   actions: [
-          //     IconButton(
-          //       onPressed: () => authC.logout(),
-          //       icon: Icon(Icons.logout),
-          //     ),
-          //   ],
-          // ),
           body:IndexedStack(
             index: controller.currentIndexPage,
             children: [
