@@ -4,6 +4,8 @@ class HomeController extends GetxController {
   final String title = 'Home Title';
 
   final count = 0.obs;
+
+  get search => null;
   @override
   void onInit() {
     super.onInit();

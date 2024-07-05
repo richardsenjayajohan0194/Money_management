@@ -13,6 +13,8 @@ class DashboardBinding extends Bindings {
     Get.lazyPut<HomeController>(
       () => HomeController()
     );
-    Get.lazyPut<AddWallateController>(() => AddWallateController());
+    Get.lazyPut<AddWallateController>(
+      () => AddWallateController()
+    );
   }
 }

@@ -26,7 +26,5 @@ flutter:
 
 
   assets:
-    - images/Saleso.png
-    - images/login.png
-    - images/SignUp.png
+    - images/
 

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class TextfieldTemplate extends StatefulWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType? keyboardType;
   bool isObscuredText;
   final String? obscureCharacter;
+  final bool useOutlineBorder; // Changed to bool for condition check
+  final Widget? prefixIcon;
   final String hintText;
   final Widget? suffixIcon;
   Widget? icon;
@@ -13,9 +15,11 @@ class TextfieldTemplate extends StatefulWidget {
 
   TextfieldTemplate({
     Key? key,
-    required this.controller,
+    this.controller,
     this.keyboardType = TextInputType.text,
     this.isObscuredText = true,
+    this.useOutlineBorder = false,
+    this.prefixIcon,
     required this.hintText,
     this.suffixIcon,
     this.icon,
@@ -48,6 +52,17 @@ class _TextfieldTemplateState extends State<TextfieldTemplate> {
         enableSuggestions: false,
         autocorrect: false,
         decoration: InputDecoration(
+          enabledBorder: widget.useOutlineBorder == true
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                  borderSide: BorderSide(width: 2.0, color: Colors.black),
+                )
+              : UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+          iconColor: Colors.black,
+          prefixIcon: widget.prefixIcon,
+          prefixIconColor: Colors.black,
           hintText: widget.hintText,
           suffixIcon: widget.hintText == "Password"
               ? IconButton(
@@ -57,17 +72,23 @@ class _TextfieldTemplateState extends State<TextfieldTemplate> {
                       : Icon(Icons.visibility_off),
                 )
               : widget.icon,
+          focusedBorder: widget.useOutlineBorder == true
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide(width: 2.0, color: Colors.black),
+                )
+              : UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
           hintStyle: TextStyle(
             color: Colors.black,
             fontSize: MediaQuery.of(context).size.height * 0.02,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
           ),
           errorStyle: TextStyle(
             fontSize: MediaQuery.of(context).size.height * 0.015,
           ),
         ),
+        cursorColor: Colors.black,
         validator: widget.validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
