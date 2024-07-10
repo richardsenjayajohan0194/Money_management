@@ -9,6 +9,7 @@ class TextfieldTemplate extends StatefulWidget {
   final bool useOutlineBorder; // Changed to bool for condition check
   final Widget? prefixIcon;
   final String hintText;
+  final EdgeInsetsGeometry? contentPadding;
   final Widget? suffixIcon;
   Widget? icon;
   final String? Function(String?)? validator;
@@ -21,6 +22,7 @@ class TextfieldTemplate extends StatefulWidget {
     this.useOutlineBorder = false,
     this.prefixIcon,
     required this.hintText,
+    this.contentPadding,
     this.suffixIcon,
     this.icon,
     this.obscureCharacter,
@@ -64,6 +66,7 @@ class _TextfieldTemplateState extends State<TextfieldTemplate> {
           prefixIcon: widget.prefixIcon,
           prefixIconColor: Colors.black,
           hintText: widget.hintText,
+          contentPadding: widget.contentPadding,
           suffixIcon: widget.hintText == "Password"
               ? IconButton(
                   onPressed: toggle,
