@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:money_management/app/controllers/auth_controller.dart';
-import 'package:money_management/app/model/user_model.dart';
 import 'package:money_management/app/utils/Widget/Textfield.dart';
+
+import 'package:money_management/app/model/user_model.dart';
+import 'package:money_management/app/controllers/auth_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  final AuthController authC = Get.find();
   final AuthController authController = Get.find<AuthController>();
 
   // Dummy data for the list
@@ -17,11 +17,10 @@ class HomeView extends GetView<HomeController> {
       'subtitle': 'Subtitle $index',
     },
   );
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<UserModel?>(
-      future: authController.getUserData(),
+      future: authController.getUserDataLog(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
@@ -134,6 +133,9 @@ class HomeView extends GetView<HomeController> {
                           ),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.01,
                     ),
                   ],
                 ),
