@@ -26,7 +26,7 @@ class DashboardView extends StatelessWidget {
           ),
           bottomNavigationBar: BottomNavigationBar(
             unselectedItemColor: Colors.black,
-            selectedItemColor: Colors.amberAccent,
+            selectedItemColor: Colors.blueAccent,
             onTap: controller.changeCurrentIndexPage,
             currentIndex: controller.currentIndexPage,
             showSelectedLabels: false,

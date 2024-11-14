@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class TextfieldTemplate extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
+  bool useMargin;
   bool isObscuredText;
   final String? obscureCharacter;
+  final InputDecoration? decoration;
   final bool useOutlineBorder; // Changed to bool for condition check
   final Widget? prefixIcon;
   final String hintText;
@@ -18,7 +20,9 @@ class TextfieldTemplate extends StatefulWidget {
     Key? key,
     this.controller,
     this.keyboardType = TextInputType.text,
+    this.useMargin = true,
     this.isObscuredText = true,
+    this.decoration,
     this.useOutlineBorder = false,
     this.prefixIcon,
     required this.hintText,
@@ -43,54 +47,56 @@ class _TextfieldTemplateState extends State<TextfieldTemplate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.015,
-        bottom: MediaQuery.of(context).size.height * 0.015,
-      ),
+      margin: widget.useMargin == true
+          ? EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.015,
+              bottom: MediaQuery.of(context).size.height * 0.015,
+            )
+          : null,
       child: TextFormField(
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         obscureText: !widget.isObscuredText,
         enableSuggestions: false,
         autocorrect: false,
-        decoration: InputDecoration(
-          enabledBorder: widget.useOutlineBorder == true
-              ? OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide: BorderSide(width: 2.0, color: Colors.black),
+        decoration: widget.decoration?.copyWith(
+              hintText: widget.hintText, // Preserve hintText
+              prefixIcon: widget.prefixIcon, // Preserve prefixIcon
+              contentPadding: widget.contentPadding, // Preserve contentPadding
+              hintStyle: TextStyle(color: Colors.black),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(width: 1.0, color: Colors.black),
                 )
-              : UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                ),
-          iconColor: Colors.black,
-          prefixIcon: widget.prefixIcon,
-          prefixIconColor: Colors.black,
-          hintText: widget.hintText,
-          contentPadding: widget.contentPadding,
-          suffixIcon: widget.hintText == "Password"
-              ? IconButton(
-                  onPressed: toggle,
-                  icon: widget.isObscuredText
-                      ? Icon(Icons.visibility)
-                      : Icon(Icons.visibility_off),
-                )
-              : widget.icon,
-          focusedBorder: widget.useOutlineBorder == true
-              ? OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  borderSide: BorderSide(width: 2.0, color: Colors.black),
-                )
-              : UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                ),
-          hintStyle: TextStyle(
-            color: Colors.black,
-            fontSize: MediaQuery.of(context).size.height * 0.02,
-          ),
-          errorStyle: TextStyle(
-            fontSize: MediaQuery.of(context).size.height * 0.015,
-          ),
-        ),
+            ) ??
+            InputDecoration(
+              hintText: widget.hintText, // Default hintText
+              prefixIcon: widget.prefixIcon, // Default prefixIcon
+              contentPadding: widget.contentPadding,
+              enabledBorder: widget.useOutlineBorder == true
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide(width: 2.0, color: Colors.black),
+                    )
+                  : UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+              focusedBorder: widget.useOutlineBorder == true
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(width: 2.0, color: Colors.black),
+                    )
+                  : UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+              hintStyle: TextStyle(
+                color: Colors.black,
+                fontSize: MediaQuery.of(context).size.height * 0.02,
+              ),
+              errorStyle: TextStyle(
+                fontSize: MediaQuery.of(context).size.height * 0.015,
+              ),
+            ),
         cursorColor: Colors.black,
         validator: widget.validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,

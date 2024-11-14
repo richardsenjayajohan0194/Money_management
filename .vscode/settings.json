@@ -1,17 +1,19 @@
 {
-    "cSpell.words": [
-        "appinvite",
-        "autocorrect",
-        "autovalidate",
-        "Berhasil",
-        "cupertino",
-        "firestore",
-        "Getx",
-        "menambahkan",
-        "mobilesdk",
-        "Signup",
-        "wallate",
-        "Wallates"
-    ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+  "cSpell.words": [
+    "appinvite",
+    "autocorrect",
+    "autovalidate",
+    "Berhasil",
+    "cupertino",
+    "Dropdownmenu",
+    "firestore",
+    "Getx",
+    "menambahkan",
+    "mobilesdk",
+    "Modalbuilder",
+    "Signup",
+    "wallate",
+    "Wallates"
+  ],
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
