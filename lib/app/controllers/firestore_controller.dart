@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:money_management/app/controllers/auth_controller.dart';
-import 'package:money_management/app/model/transaction_model.dart';
 import 'package:money_management/app/model/user_model.dart';
-import 'package:money_management/app/model/wallate_model.dart';
 import 'package:money_management/app/routes/app_pages.dart';
 
 import '../model/bank_model.dart';
@@ -84,7 +82,7 @@ class FirestoreController extends GetxController {
     }
   }
 
- Future<List<BankModel>> getDataBanks() async {
+  Future<List<BankModel>> getDataBanks() async {
     List<BankModel> bankDataList = []; // List to hold bank data
     try {
       QuerySnapshot snapshot = await firestore.collection('banks').get();
@@ -211,4 +209,5 @@ class FirestoreController extends GetxController {
     //   textConfirm: "OKAY",
     // );
   }
+
 }

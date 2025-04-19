@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:money_management/app/utils/Widget/Dropdown.dart';
@@ -17,14 +16,6 @@ class HomeView extends GetView<HomeController> {
   final AuthController authC = Get.find();
   final firestoreF = Get.find<FirestoreController>();
 
-  // Dummy data for the list
-  // final List<Map<String, String>> dummyItems = List.generate(
-  //   20,
-  //   (index) => {
-  //     'title': 'Dummy Item $index',
-  //     'subtitle': 'Subtitle $index',
-  //   },
-  // );
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<UserModel?>(
@@ -197,7 +188,75 @@ class HomeView extends GetView<HomeController> {
                                         return null;
                                       },
                                     ),
-                                    DropdownTemplate(),
+                                    // Dropdown for Bank Names
+                                    FutureBuilder<List<BankModel>>(
+                                      future: firestoreF.getDataBanks(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return CircularProgressIndicator();
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        } else if (!snapshot.hasData ||
+                                            snapshot.data!.isEmpty) {
+                                          return Text('No banks found.');
+                                        } else {
+                                          final banks = snapshot.data!;
+                                          return DropdownTemplate(
+                                            items: banks
+                                                .map((bank) =>
+                                                    bank.bank ?? 'Unknown Bank')
+                                                .toList(),
+                                            textfieldTemplate:
+                                                TextfieldTemplate(
+                                              hintText: 'Bank Name',
+                                              useMargin: false,
+                                              useOutlineBorder: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                vertical: 10,
+                                                horizontal: 10,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    FutureBuilder<List<BankModel>>(
+                                      future: firestoreF.getDataBanks(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return CircularProgressIndicator();
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        } else if (!snapshot.hasData ||
+                                            snapshot.data!.isEmpty) {
+                                          return Text('No banks found.');
+                                        } else {
+                                          final banks = snapshot.data!;
+                                          return DropdownTemplate(
+                                            items: banks
+                                                .map((bank) =>
+                                                    bank.type ?? 'Unknown Bank')
+                                                .toList(),
+                                            textfieldTemplate:
+                                                TextfieldTemplate(
+                                              hintText: 'Type Card',
+                                              useMargin: false,
+                                              useOutlineBorder: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                vertical: 10,
+                                                horizontal: 10,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       height:
@@ -268,8 +327,7 @@ class HomeView extends GetView<HomeController> {
                                   final bank = banks[index];
                                   return ListTile(
                                     title: Text(bank.bank ?? 'No Bank'),
-                                    subtitle:
-                                        Text(bank.type ?? 'No Type'),
+                                    subtitle: Text(bank.type ?? 'No Type'),
                                     leading:
                                         Icon(Icons.account_balance_rounded),
                                     trailing: Icon(Icons.arrow_forward),

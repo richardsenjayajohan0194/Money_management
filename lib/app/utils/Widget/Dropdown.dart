@@ -5,11 +5,14 @@ import 'package:get/get.dart';
 import 'package:money_management/app/utils/Widget/Textfield.dart';
 
 import '../../controllers/firestore_controller.dart';
-import '../../model/bank_model.dart';
 
 class DropdownTemplate extends StatefulWidget {
+  final TextfieldTemplate? textfieldTemplate;
+  final List<String> items;
   DropdownTemplate({
     Key? key,
+    this.textfieldTemplate,
+    required this.items,
   }) : super(key: key);
 
   @override
@@ -19,34 +22,34 @@ class DropdownTemplate extends StatefulWidget {
 class _DropdownTemplateState extends State<DropdownTemplate> {
   final firestoreF = Get.find<FirestoreController>();
 
-  List<String> items = []; // Initialize items list
-
   String? selectedValue;
   String customValue = '';
   bool isOtherSelected = false;
   double dropdownWidth = 0.74;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadBankData(); // Load bank data when the widget is initialized
-  }
+  // List<String> items = []; // Initialize items list
 
-  Future<void> _loadBankData() async {
-    List<BankModel> bankDataList = await firestoreF.getDataBanks();
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _loadBankData(); // Load bank data when the widget is initialized
+  // }
 
-    // Debugging line to check the contents of bankDataList
-    print("Bank Data List: $bankDataList");
+  // Future<void> _loadBankData() async {
+  //   List<BankModel> bankDataList = await firestoreF.getDataBanks();
 
-    setState(() {
-      items = [
-        ...bankDataList
-            .map((bankData) => bankData.bank ?? 'Unknown Bank')
-            .toList(),
-        'Other'
-      ];
-    });
-  }
+  //   // Debugging line to check the contents of bankDataList
+  //   print("Bank Data List: $bankDataList");
+
+  //   setState(() {
+  //     items = [
+  //       ...bankDataList
+  //           .map((bankData) => bankData.bank ?? 'Unknown Bank')
+  //           .toList(),
+  //       'Other'
+  //     ];
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +81,7 @@ class _DropdownTemplateState extends State<DropdownTemplate> {
                   ),
                 ],
               ),
-              items: items.map((String item) {
+              items: widget.items.map((String item) {
                 return DropdownMenuItem<String>(
                   value: item,
                   child: Text(item),
@@ -127,11 +130,11 @@ class _DropdownTemplateState extends State<DropdownTemplate> {
                 offset: Offset(0, 0), // Center the dropdown
                 scrollbarTheme: ScrollbarThemeData(
                   radius: Radius.circular(20.0),
-                  thickness: MaterialStateProperty.all<double>(
+                  thickness: WidgetStateProperty.all<double>(
                       0), // Set thickness to 0 to hide scrollbar
-                  thumbVisibility: MaterialStateProperty.all<bool>(
+                  thumbVisibility: WidgetStateProperty.all<bool>(
                       false), // Set thumb visibility to false
-                  thumbColor: MaterialStateProperty.all<Color>(
+                  thumbColor: WidgetStateProperty.all<Color>(
                       Colors.transparent), // Set thumb color to transparent
                 ),
               ),
@@ -152,15 +155,7 @@ class _DropdownTemplateState extends State<DropdownTemplate> {
         isOtherSelected
             ? Expanded(
                 flex: 2,
-                child: TextfieldTemplate(
-                  hintText: 'Enter custom value',
-                  useMargin: false,
-                  useOutlineBorder: true,
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 10,
-                  ),
-                ),
+                child: widget.textfieldTemplate ?? Container(),
               )
             : Container(),
       ],
