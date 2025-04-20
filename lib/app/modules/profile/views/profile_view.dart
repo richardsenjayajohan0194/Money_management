@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../controllers/profile_controller.dart';
 import 'package:money_management/app/model/user_model.dart';
 import 'package:money_management/app/controllers/auth_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final AuthController authController = Get.find<AuthController>();
+  
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UserModel?>(
-      future: authController.getUserData(),
+     return FutureBuilder<UserModel?>(
+      future: authController.getUserDataLog(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(

@@ -1,13 +1,16 @@
+// ignore_for_file: unnecessary_cast
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:money_management/app/controllers/auth_controller.dart';
-import 'package:money_management/app/model/transaction_model.dart';
 import 'package:money_management/app/model/user_model.dart';
-import 'package:money_management/app/model/wallate_model.dart';
 import 'package:money_management/app/routes/app_pages.dart';
+
+import '../model/bank_model.dart';
 
 class FirestoreController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  var banks = <BankModel>[].obs; // Observable list to store banks
 
   // WallateModel wallateModel = WallateModel();
 
@@ -42,14 +45,107 @@ class FirestoreController extends GetxController {
     }
   }
 
+  void Bank(String bank, String type) async {
+    if (bank.isNotEmpty && type.isNotEmpty) {
+      try {
+        // Create a new BankModel instance
+        BankModel newBank = BankModel(bank: bank, type: type);
+
+        // Add to Firestore
+        await firestore.collection('banks').add(newBank.toMap());
+
+        print(
+            "Bank: ${newBank.bank}, Type: ${newBank.type} added to Firestore");
+
+        // Optionally, show a success message
+        Get.defaultDialog(
+          title: "Success",
+          middleText: "Bank and Type added successfully.",
+          onConfirm: () {
+            Get.offAllNamed(Routes.HOME);
+          },
+          textConfirm: "OK",
+        );
+      } catch (e) {
+        print("Error adding document: $e");
+
+        // Optionally, show an error message
+        Get.defaultDialog(
+          title: "Error",
+          middleText: "An error occurred: $e",
+          onConfirm: () {
+            Get.back();
+          },
+          textConfirm: "OK",
+        );
+      }
+    }
+  }
+
+  Future<List<BankModel>> getDataBanks() async {
+    List<BankModel> bankDataList = []; // List to hold bank data
+    try {
+      QuerySnapshot snapshot = await firestore.collection('banks').get();
+
+      for (var doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>?; // Use nullable type
+        if (data != null &&
+            data.containsKey('bank') &&
+            data.containsKey('type')) {
+          bankDataList.add(BankModel(
+            id: doc.id,
+            bank: data['bank'] as String? ?? 'Unknown Bank', // Handle null
+            type: data['type'] as String? ?? 'Unknown Type', // Handle null
+          ));
+        }
+      }
+    } catch (e) {
+      print("Error retrieving banks: $e");
+    }
+    return bankDataList; // Return the list of bank data
+  }
+
+  Stream<List<BankModel>> getBanks() {
+    return firestore.collection('banks').snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) {
+            try {
+              // Check if the document exists
+              if (doc.exists) {
+                // Get the data safely
+                final data = doc.data() as Map<String, dynamic>?;
+
+                if (data != null) {
+                  return BankModel.fromMap(data, doc.id);
+                } else {
+                  print('Document ${doc.id} has no data.');
+                  return null; // Handle case where data is null
+                }
+              } else {
+                print('Document ${doc.id} does not exist.');
+                return null; // Document does not exist
+              }
+            } catch (e) {
+              print('Error parsing document: ${doc.id}, error: $e');
+              return null; // Handle error as needed
+            }
+          })
+          .where((bank) => bank != null)
+          .cast<BankModel>()
+          .toList();
+    });
+  }
+
   void addWallate(String wallates, String name, String desc, String ballance,
       String image) async {
     // Mengambil data uid dari fungsi getUserData()
-    // Map<String, dynamic>? userData =
-    //     await Get.find<AuthController>().getUserData();
-    // String uid = userData!['user']['uid'];
+    UserModel? userData = await Get.find<AuthController>().getUserDataLog();
 
-    // print("uidnya adalah $uid");
+    //Check if user_id null or not
+    String user_id = userData!.uid ?? '';
+    print(user_id);
+
+    // print("uidnya adalah userData");
 
     // // Menggunakan objek dari kedua class object
     // TransactionModel transactionModel = TransactionModel(
@@ -113,4 +209,5 @@ class FirestoreController extends GetxController {
     //   textConfirm: "OKAY",
     // );
   }
+
 }

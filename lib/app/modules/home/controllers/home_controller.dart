@@ -1,7 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   final String title = 'Home Title';
+
+  TextEditingController bank = TextEditingController();
+  TextEditingController type = TextEditingController();
 
   final count = 0.obs;
 

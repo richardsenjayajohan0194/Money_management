@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -26,7 +25,7 @@ class DashboardView extends StatelessWidget {
           ),
           bottomNavigationBar: BottomNavigationBar(
             unselectedItemColor: Colors.black,
-            selectedItemColor: Colors.amberAccent,
+            selectedItemColor: Colors.blueAccent,
             onTap: controller.changeCurrentIndexPage,
             currentIndex: controller.currentIndexPage,
             showSelectedLabels: false,
